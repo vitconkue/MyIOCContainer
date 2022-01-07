@@ -17,11 +17,15 @@ namespace testIOCcontainer
         }
 
         private static MyContainer _instance = null;
+        private static readonly object padlock = new object();
 
         public static MyContainer GetInstance()
         {
-            if (_instance is null)
-                return new MyContainer();
+            lock(padlock)
+            {
+                if (_instance is null)
+                    return new MyContainer();
+            }
             return _instance;
         }
 
