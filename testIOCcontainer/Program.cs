@@ -34,9 +34,13 @@ namespace testIOCcontainer
         {
             var container = new MyContainer();
 
-            container.RegisterTransient<IRegisterableObject, Student>();
+            container.RegisterSingleton<IRegisterableObject,Student>();
 
             var result = container.GetResult(typeof(IRegisterableObject));
+
+            var result2 = container.GetResult(typeof(IRegisterableObject));
+            
+            Console.WriteLine(result == result2);
 
 
             Console.WriteLine(result.GetType());

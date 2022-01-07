@@ -24,6 +24,17 @@ namespace testIOCcontainer
             _registrations.Add(typeof(TAbs), new CreateNewConcreteObjectStrategy(_registrations, typeof(TImp)));
         }
 
+        public void RegisterSingleton<TAbs, TImp>()
+        {
+            if (!typeof(TAbs).IsAssignableFrom(typeof(TImp)))
+                throw new InvalidOperationException("register a child and master class only");
+            
+            _registrations
+                .Add(typeof(TAbs), 
+                    new CreateNewSingletonObjectStrategy(new MasterResolveStrategy(_registrations) ,_singletonRegistrations,typeof(TImp)));
+            
+        }
+
         public object GetResult(Type type)
         {
             var foundResolver = _registrations.TryGetValue(type, out var resolveStrategy);
