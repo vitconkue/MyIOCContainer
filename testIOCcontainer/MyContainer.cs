@@ -5,15 +5,24 @@ using testIOCcontainer.Strategy;
 
 namespace testIOCcontainer
 {
-    public class MyContainer
+    public sealed class MyContainer
     {
-        private readonly Dictionary<Type, IResolveStrategy> _registrations = new();
-        private readonly Dictionary<Type, object> _singletonRegistrations = new();
+        private readonly Dictionary<Type, IResolveStrategy> _registrations;
+        private readonly Dictionary<Type, object> _singletonRegistrations;
 
-        public MyContainer()
+        private MyContainer()
         {
             _registrations = new Dictionary<Type, IResolveStrategy>();
             _singletonRegistrations = new Dictionary<Type, object>();
+        }
+
+        private static MyContainer _instance = null;
+
+        public static MyContainer GetInstance()
+        {
+            if (_instance is null)
+                return new MyContainer();
+            return _instance;
         }
 
         public void RegisterTransient<TAbs, TImp>()

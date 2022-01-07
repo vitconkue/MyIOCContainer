@@ -32,7 +32,7 @@ namespace testIOCcontainer
     {
         private static void Main(string[] args)
         {
-            var container = new MyContainer();
+            var container = MyContainer.GetInstance();
 
             container.RegisterSingleton<IRegisterableObject,Student>();
 
